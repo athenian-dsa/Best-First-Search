@@ -10,72 +10,6 @@ public class BestFirstSearchGraph {
         vertices = new HashMap<>();
     }
 
-    // Adds a vertex to the graph
-    public void addVertex(String label, int x, int y) {
-        // Check vertex doesn't already exist before adding it
-        if (!vertices.containsKey(label)) {
-            GridVertex v1 = new GridVertex(label, x, y);
-            vertices.put(label, v1);
-        }
-    }
-
-    // Adds an edge to the graph
-    public void addEdge(String label1, String label2, int weight) {
-        // Check vertices exist before adding an edge between them
-        if (vertices.containsKey(label1) && vertices.containsKey(label2)) {
-            GridVertex v1 = vertices.get(label1);
-            GridVertex v2 = vertices.get(label2);
-
-            v1.edges.add(new WeightedEdge(v1, v2, weight));
-            v2.edges.add(new WeightedEdge(v2, v1, weight));
-        }
-    }
-
-    // Removes a vertex from the graph
-    public void removeVertex(String label) {
-        // Check vertex exists before removing it
-        if (vertices.containsKey(label)) {
-            GridVertex v1 = vertices.get(label);
-
-            // Remove all edges to this vertex
-            for (WeightedEdge edge1: v1.edges) {
-                GridVertex v2 = edge1.destination;
-
-                // Look through v2 edges for edge to this
-                for (WeightedEdge edge2: v2.edges) {
-                    if (edge2.destination.equals(v1)) {
-                        v2.edges.remove(edge2);
-                    }
-                }
-            }
-
-            v1.edges.clear();
-            vertices.remove(label);
-        }
-    }
-
-    // Removes an edge from the graph
-    public void removeEdge(String label1, String label2) {
-        // Check vertices exist before removing an edge between them
-        if (vertices.containsKey(label1) && vertices.containsKey(label2)) {
-            GridVertex v1 = vertices.get(label1);
-            GridVertex v2 = vertices.get(label2);
-
-            for (WeightedEdge edge1: v1.edges) {
-                if (edge1.destination.equals(v2)) {
-                    v1.edges.remove(edge1);
-                }
-            }
-
-            for (WeightedEdge edge2: v2.edges) {
-                if (edge2.destination.equals(v1)) {
-                    v2.edges.remove(edge2);
-                }
-            }
-
-        }
-    }
-
     // Manhattan Distance Heuristic
     // Given the labels corresponding to two nodes
     // calculates the Manhattan Distance between the nodes
@@ -85,20 +19,9 @@ public class BestFirstSearchGraph {
         return Math.abs(v1.x-v2.x) + Math.abs(v1.y-v2.y);
     }
 
-    // Priority Queue Check
-    // Given a priority queue and a label, checks to see
-    // if a PQNode with that label shows is present in the queue
-    public boolean queueContainsLabel(PriorityQueue<PQNode> queue, String label) {
-        for (PQNode n : queue) {
-            if (n.label.equals(label)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     // Carries out bestFirstSearch from the source to the destination
-    // Returns the length of the path
+    // Returns the length of the path, or -1 if no path is found
     // To aid in seeing what path your algorithm follows, it is
     // recommended to print out the labels of vertices you visit, as
     // well as the distances hashSet at the end
@@ -148,6 +71,29 @@ public class BestFirstSearchGraph {
             System.out.println();
         }
     }
+
+
+    // Adds a vertex to the graph
+    public void addVertex(String label, int x, int y) {
+        // Check vertex doesn't already exist before adding it
+        if (!vertices.containsKey(label)) {
+            GridVertex v1 = new GridVertex(label, x, y);
+            vertices.put(label, v1);
+        }
+    }
+
+    // Adds an edge to the graph
+    public void addEdge(String label1, String label2, int weight) {
+        // Check vertices exist before adding an edge between them
+        if (vertices.containsKey(label1) && vertices.containsKey(label2)) {
+            GridVertex v1 = vertices.get(label1);
+            GridVertex v2 = vertices.get(label2);
+
+            v1.edges.add(new WeightedEdge(v1, v2, weight));
+            v2.edges.add(new WeightedEdge(v2, v1, weight));
+        }
+    }
+
 
     public static void main(String[] args) {
         // --------------------------

@@ -10,8 +10,7 @@ public class WeightedEdge implements Comparable<WeightedEdge> {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof WeightedEdge) {
-            WeightedEdge otherEdge = (WeightedEdge) other;
+        if (other instanceof WeightedEdge otherEdge) {
             return this.source.equals(otherEdge.source) && this.destination.equals(otherEdge.destination) ||
                     this.source.equals(otherEdge.destination) && this.destination.equals(otherEdge.source);
         }
